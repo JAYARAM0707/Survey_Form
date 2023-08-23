@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Multi-Page Survey Form</title>
+<style>
+  body {
+    background: aqua;
+    font-family: Arial, sans-serif;
+  }
+  .survey-container {
+    display: block;
+    width: 60%;
+    height: 80%;
+    margin: 0 auto;
+    padding :150px;
+    background: black;
+    border-radius: 100px;
+    color: white;
+    text-align: center;
+  }
+  .page {
+    display: none;
+  }
+  .page.active {
+    display: block;
+  }
+
+  button {
+    margin-top: 10px;
+  }
+</style>
+</head>
+<body>
+<div class="survey-container">
+  <form id="surveyForm">
+    <div class="page active" data-page="1">
+      <h2><b></b>Page 1: Basic Information</b></h2>
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name"><br>
+      <label for="name">Age:</label>
+      <input type="number" id="age" name="age">
+      <br>
+      <label for="name">Gender:</label>
+      <input type="radio" id="Male" name="gender" value="Male">
+      <label for="male">Male</label>
+      <input type="radio" id="Female" name="gender" value="Female">
+      <label for="female">Female</label>
+      <br>
+      <label for="Address">Address:</label>
+      <textarea id="address" name="address"></textarea>
+      <br>
+      <button type="button" onclick="nextPage(2)">Next</button>
+    </div>
+    <div class="page" data-page="2">
+      <h2>Page 2: Preferences</h2>
+      <label for="color">Favorite Color:</label>
+      <input type="text" id="color" name="color"><br>
+      <label for="food">Favorite Food:</label>
+      <input type="text" id="food" name="food"><br>
+      <label for="place">Favorite Place:</label>
+      <input type="text" id="place" name="place"><br>
+      <button type="button" onclick="prevPage(1)">Previous</button>
+      <button type="button" onclick="nextPage(3)">Next</button>
+    </div>
+    <div class="page" data-page="3">
+      <h2>Page 3: Feedback</h2>
+      <label for="feedback">Feedback:</label>
+      <textarea id="feedback" name="feedback"></textarea>
+      <button type="button" onclick="prevPage(2)">Previous</button>
+      <button type="button" onclick="nextPage(4)">Submit</button>
+    </div>
+    <div class="page" data-page="4">
+        <h2>Your form Successfully Submitted</h2>
+
+    </div>
+  </form>
+</div>
+
+<script>
+  const form = document.getElementById('surveyForm');
+  const pages = Array.from(document.querySelectorAll('.page'));
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    // Here you can implement code to submit the form data to a database or via email
+    console.log('Form submitted:', serializeFormData());
+  });
+
+  function serializeFormData() {
+    const formData = new FormData(form);
+    const data = {};
+    formData.forEach((value, key) => {
+      data[key] = value;
+    });
+    return data;
+  }
+
+  function nextPage(nextPageNum) {
+    const currentPage = form.querySelector('.page.active');
+    currentPage.classList.remove('active');
+    const nextPage = form.querySelector(`[data-page="${nextPageNum}"]`);
+    nextPage.classList.add('active');
+  }
+
+  function prevPage(prevPageNum) {
+    const currentPage = form.querySelector('.page.active');
+    currentPage.classList.remove('active');
+    const prevPage = form.querySelector(`[data-page="${prevPageNum}"]`);
+    prevPage.classList.add('active');
+  }
+</script>
+</body>
+</html>
